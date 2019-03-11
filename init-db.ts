@@ -4,12 +4,12 @@ import {COURSES, findLessonsForCourse} from './db-data';
 import * as firebase from 'firebase';
 
 var config = {
-  apiKey: 'AIzaSyDAdoefqX5OqjkD3BkW25ZAL6XYZMo4Vz8',
-  authDomain: 'fir-course-17549.firebaseapp.com',
-  databaseURL: 'https://fir-course-17549.firebaseio.com',
-  projectId: 'fir-course-17549',
-  storageBucket: 'fir-course-17549.appspot.com',
-  messagingSenderId: '170806523820'
+  apiKey: "AIzaSyD4279I3tW_lTgeK4U4oeJZSu176YJTFEA",
+  authDomain: "fb-course-ncp.firebaseapp.com",
+  databaseURL: "https://fb-course-ncp.firebaseio.com",
+  projectId: "fb-course-ncp",
+  storageBucket: "fb-course-ncp.appspot.com",
+  messagingSenderId: "746287073234"
 };
 
 console.log("Uploading data to the database with the following config:\n");
@@ -26,9 +26,6 @@ const db = firebase.firestore();
 const settings = {timestampsInSnapshots: true};
 
 db.settings(settings);
-
-
-
 
 async function uploadData() {
 
@@ -49,7 +46,7 @@ async function uploadData() {
 
       const courseLessons = findLessonsForCourse(course.id);
 
-      //console.log(`Adding ${courseLessons.length} lessons to ${course.description}`);
+      console.log(`Adding ${courseLessons.length} lessons to ${course.description}`);
 
       courseLessons.forEach(async lesson => {
 
@@ -77,14 +74,14 @@ function removeId(data:any) {
 
 uploadData()
   .then(() => {
-    console.log("Writing data, exiting in 10 seconds ...\n\n");
+    console.log("Writing data, exiting in 30 seconds ...\n\n");
 
     setTimeout(() => {
 
       console.log("\n\n\nData Upload Completed.\n\n\n");
       process.exit(0);
 
-    }, 10000);
+    }, 30000);
 
   })
   .catch(err => {
