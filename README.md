@@ -16,8 +16,6 @@ For running this project we need and npm installed on our machine. These are som
 
 *Its important to install the latest version of Node*
 
-- [Install Node and NPM on Windows](https://www.youtube.com/watch?v=8ODS6RM6x7g)
-- [Install Node and NPM on Linux](https://www.youtube.com/watch?v=yUdHk-Dk_BY)
 - [Install Node and NPM on Mac](https://www.youtube.com/watch?v=Imj8PgG3bZU)
 
 
@@ -80,74 +78,4 @@ We can checkout that particular remote branch, by using the following command:
       git checkout -b 1-introduction origin/1-introduction
 
 It's also possible to download a ZIP file for a given branch, using the branch dropdown of this page on the top left, and then selecting the Clone or Download / Download as ZIP button.
-
-# Other Courses
-
-# Angular Core Deep Dive Course
-
-If you are looking for the [Angular Core Deep Dive Course](https://angular-university.io/course/angular-course), the repo with the full code can be found here:
-
-![Angular Core Deep Dive](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-core-in-depth-small.png)
-
-# RxJs In Practice
-
-If you are looking for the [RxJs In Practice](https://angular-university.io/course/rxjs-course), the repo with the full code can be found here:
-
-![RxJs In Practice Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/rxjs-in-practice-course.png)
-
-
-# NgRx In Depth
-
-If you are looking for the [NgRx In Depth](https://angular-university.io/course/angular-ngrx-course), the repo with the full code can be found here:
-
-![Angular Ngrx Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-ngrx-course.png)
-
-
-# Angular Universal Course
-
-If you are looking for the [Angular Universal Course](https://angular-university.io/course/angular-universal-course), the repo with the full code can be found here:
-
-![Angular Universal Course](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-universal-small.png)
-
-# Angular PWA Course
-
-If you are looking for the [Angular PWA Course](https://angular-university.io/course/angular-pwa-course), the repo with the full code can be found here:
-
-![Angular PWA Course - Build the future of the Web Today](https://s3-us-west-1.amazonaws.com/angular-university/course-images/angular-pwa-course.png)
-
-# Angular Security Masterclass
-
-If you are looking for the [Angular Security Masterclass](https://angular-university.io/course/angular-security-course), the repo with the full code can be found here:
-
-[Angular Security Masterclass](https://github.com/angular-university/angular-security-course).
-
-![Angular Security Masterclass](https://s3-us-west-1.amazonaws.com/angular-university/course-images/security-cover-small-v2.png)
-
-# Angular Advanced Library Laboratory Course
-
-If you are looking for the Angular Advanced Course, the repo with the full code can be found here:
-
-[Angular Advanced Library Laboratory Course: Build Your Own Library](https://angular-university.io/course/angular-advanced-course).
-
-![Angular Advanced Library Laboratory Course: Build Your Own Library](https://angular-academy.s3.amazonaws.com/thumbnails/advanced_angular-small-v3.png)
-
-
-## RxJs and Reactive Patterns Angular Architecture Course
-
-If you are looking for the RxJs and Reactive Patterns Angular Architecture Course code, the repo with the full code can be found here:
-
-[RxJs and Reactive Patterns Angular Architecture Course](https://angular-university.io/course/reactive-angular-architecture-course)
-
-![RxJs and Reactive Patterns Angular Architecture Course](https://s3-us-west-1.amazonaws.com/angular-academy/blog/images/rxjs-reactive-patterns-small.png)
-
-
-## Complete Typescript Course - Build A REST API
-
-If you are looking for the Complete Typescript 2 Course - Build a REST API, the repo with the full code can be found here:
-
-[https://angular-university.io/course/typescript-2-tutorial](https://github.com/angular-university/complete-typescript-course)
-
-[Github repo for this course](https://github.com/angular-university/complete-typescript-course)
-
-![Complete Typescript Course](https://angular-academy.s3.amazonaws.com/thumbnails/typescript-2-small.png)
 
