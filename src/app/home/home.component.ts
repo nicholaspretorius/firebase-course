@@ -12,33 +12,37 @@ import {AngularFirestore} from "@angular/fire/firestore";
 })
 export class HomeComponent implements OnInit {
 
-  @Input()
-  courses: Course[];
+    courses$: Observable<Course[]>;
 
-  coursesBeginner: Course[];
-  coursesAdvanced: Course[];
+    coursesBeginner$: Observable<Course[]>;
+    coursesAdvanced$: Observable<Course[]>;
 
-    constructor(private db: AngularFirestore) {
+
+    constructor(private db: AngularFirestore) {}
+
+    ngOnInit() {
+      this.courses$ = this.db.collection('courses')
+        .snapshotChanges()// .valueChanges()
+        .pipe(map(snaps => {
+         return snaps.map(snap => {
+          return <Course> {
+            id: snap.payload.doc.id,
+            ...snap.payload.doc.data()
+          }
+        })
+      }));
+
+      this.coursesBeginner$ = this.courseFilter('BEGINNER');
+      this.coursesAdvanced$ = this.courseFilter('ADVANCED');
 
     }
 
-    ngOnInit() {
-      this.db.collection('courses')
-        .snapshotChanges()// .valueChanges()
-        .subscribe(snaps => {
-          this.courses = snaps.map(snap => {
-            return <Course> {
-              id: snap.payload.doc.id,
-              ...snap.payload.doc.data()
-            }
-          })
-
-          console.log('Courses: ', this.courses);
-          this.coursesBeginner = this.courses.filter(course => course.categories.indexOf('BEGINNER') != -1);
-          this.coursesAdvanced = this.courses.filter(course => course.categories.indexOf('ADVANCED') != -1);
-        });
-
-
+    public courseFilter(categoryName: string): Observable<Course[]> {
+      return this.courses$.pipe(
+        map(courses => courses.filter(
+          course => course.categories.includes(categoryName))
+        )
+      );
     }
 
 }
