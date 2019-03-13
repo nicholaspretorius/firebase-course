@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Course} from "../model/course";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {AngularFirestore} from "@angular/fire/firestore";
+import {CoursesService} from "../services/courses.service";
 
 
 @Component({
@@ -18,27 +18,17 @@ export class HomeComponent implements OnInit {
     coursesAdvanced$: Observable<Course[]>;
 
 
-    constructor(private db: AngularFirestore) {}
+    constructor(private coursesService: CoursesService) {}
 
     ngOnInit() {
-      this.courses$ = this.db.collection('courses')
-        .snapshotChanges()// .valueChanges()
-        .pipe(map(snaps => {
-         return snaps.map(snap => {
-          return <Course> {
-            id: snap.payload.doc.id,
-            ...snap.payload.doc.data()
-          }
-        })
-      }));
+      this.courses$ = this.coursesService.getCourses();
 
-      this.coursesBeginner$ = this.courseFilter('BEGINNER');
-      this.coursesAdvanced$ = this.courseFilter('ADVANCED');
-
+      this.coursesBeginner$ = this.courseFilter(this.courses$,'BEGINNER');
+      this.coursesAdvanced$ = this.courseFilter(this.courses$,'ADVANCED');
     }
 
-    public courseFilter(categoryName: string): Observable<Course[]> {
-      return this.courses$.pipe(
+    public courseFilter(courses$: Observable<Course[]>, categoryName: string): Observable<Course[]> {
+      return courses$.pipe(
         map(courses => courses.filter(
           course => course.categories.includes(categoryName))
         )
