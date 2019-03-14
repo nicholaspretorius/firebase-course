@@ -26,7 +26,6 @@ import { CourseDialogComponent } from './course-dialog/course-dialog.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatMomentDateModule} from "@angular/material-moment-adapter";
 import {AngularFireModule} from '@angular/fire';
-
 import { environment } from '../environments/environment';
 import {AngularFireAuthModule} from '@angular/fire/auth';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
@@ -69,6 +68,7 @@ import { LoginComponent } from './login/login.component';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
+        AngularFirestoreModule.enablePersistence(),
         AngularFireStorageModule
     ],
     providers: [
