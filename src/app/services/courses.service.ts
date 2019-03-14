@@ -44,10 +44,12 @@ export class CoursesService {
     return this.db.collection(`courses/${courseId}/lessons`,
         ref => ref
           .orderBy('seqNo', sortOrder)
+          .limit(pageSize)
           .startAfter(pageNumber * pageSize))
       .snapshotChanges()
       .pipe(
-        map(snaps => convertSnapshots<Lesson>(snaps))
+        map(snaps => convertSnapshots<Lesson>(snaps)),
+        first()
       );
   }
 }
