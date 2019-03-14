@@ -15,27 +15,27 @@ export class AboutComponent implements OnInit {
 
   ngOnInit() {
 
+    // const courseRef = this.db.doc('/courses/0M6CZTfj8RQ8lZH8Sb2Q')
+      // .snapshotChanges()
+      // .subscribe(snaps => {
+      //   const course: any = snaps.payload.data();
+      //   console.log('courseRef: ', course);
+      //   console.log('courseRef.relatedCourseRef: ', course.relatedCourseRef);
+      //   this.db.doc(course.relatedCourseRef).snapshotChanges().subscribe(subdoc => console.log('Subdoc: ', subdoc.payload.data()));
+      // });
+
     const courseRef = this.db.doc('/courses/0M6CZTfj8RQ8lZH8Sb2Q')
       .snapshotChanges()
-      .subscribe(snaps => {
-        const course: any = snaps.payload.data();
-        console.log('courseRef: ', course);
-        console.log('courseRef.relatedCourseRef: ', course.relatedCourseRef);
-        this.db.doc(course.relatedCourseRef).snapshotChanges().subscribe(subdoc => console.log('Subdoc: ', subdoc.payload.data()));
-      });
+      .subscribe(snap => {
+        this.course = snap.payload.data();
+        console.log('Course Data: ', this.course);
 
-    // const courseRef = this.db.doc('/courses/0M6CZTfj8RQ8lZH8Sb2Q')
-    //   .snapshotChanges()
-    //   .subscribe(snap => {
-    //     this.course = snap.payload.data();
-    //     console.log('Course Data: ', this.course);
-    //
-    //     const relatedCourse = this.db.doc(this.course.relatedCourseRef)
-    //       .snapshotChanges()
-    //       .subscribe( snap => {
-    //         console.log('Related Course Data: ', snap.payload.data());
-    //       });
-    //   });
+        const relatedCourse = this.db.doc(this.course.relatedCourseRef)
+          .snapshotChanges()
+          .subscribe( snap => {
+            console.log('Related Course Data: ', snap.payload.data());
+          });
+      });
   }
 
   save() {
@@ -49,6 +49,22 @@ export class AboutComponent implements OnInit {
 
     const batch$ = of(batch.commit());
     batch$.subscribe();
+  }
+
+  async runTransaction() {
+
+    const newCounter = await this.db.firestore.runTransaction(async transaction => {
+      console.log('Running transaction...');
+
+      const courseRef = this.db.doc('/courses/0M6CZTfj8RQ8lZH8Sb2Q').ref;
+      const snap = await transaction.get(courseRef);
+      const course = <Course> snap.data();
+      const lessonCount = course.lessonsCount + 1;
+      transaction.update(courseRef, {lessonCount: lessonCount});
+      return lessonCount;
+    });
+
+    console.log('New Counter: ', newCounter);
   }
 
 }
