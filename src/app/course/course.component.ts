@@ -4,6 +4,7 @@ import {Course} from '../model/course';
 import {tap} from 'rxjs/operators';
 import {Observable} from 'rxjs';
 import {Lesson} from '../model/lesson';
+import {CoursesService} from "../services/courses.service";
 
 
 @Component({
@@ -14,12 +15,14 @@ import {Lesson} from '../model/lesson';
 export class CourseComponent implements OnInit {
 
   course: Course;
+  lessons$: Observable<Lesson[]>;
 
   displayedColumns = ['seqNo', 'description', 'duration'];
 
 
   constructor(
-    private route: ActivatedRoute) {
+    private route: ActivatedRoute,
+    private coursesService: CoursesService) {
 
 
   }
@@ -27,6 +30,7 @@ export class CourseComponent implements OnInit {
   ngOnInit() {
 
     this.course = this.route.snapshot.data['course'];
+    this.lessons$ = this.coursesService.getLessons(this.course.id);
 
 
 
