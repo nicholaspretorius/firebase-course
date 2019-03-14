@@ -37,8 +37,8 @@ export class CourseComponent implements OnInit {
     // this.lessons$ = this.coursesService.getLessons(this.course.id);
     this.coursesService.getLessons(this.course.id)
       .pipe(
-        finalize(() => this.loading = false)
-      )
+      finalize(() => this.loading = false)
+    )
       .subscribe(
     lessons => this.lessons = lessons);
 

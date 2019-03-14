@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
+import {Observable, of} from "rxjs";
 import {first, map} from "rxjs/operators";
 import {AngularFirestore} from "@angular/fire/firestore";
 
@@ -7,6 +7,7 @@ import {Course} from "../model/course";
 import {convertSnapshots} from "./db-utils";
 import {Lesson} from "../model/lesson";
 import OrderByDirection = firebase.firestore.OrderByDirection;
+import {Form} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -51,5 +52,10 @@ export class CoursesService {
         map(snaps => convertSnapshots<Lesson>(snaps)),
         first()
       );
+  }
+
+  updateCourse(courseId: string, updates: Partial<Course>): Observable<any> {
+    console.log('CourseId:', courseId, 'Changes: ', updates);
+    return of(this.db.doc(`courses/${courseId}`).update(updates));
   }
 }

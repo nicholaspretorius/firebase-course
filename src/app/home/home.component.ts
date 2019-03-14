@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Course} from "../model/course";
 import {Observable} from "rxjs";
-import {map} from "rxjs/operators";
+import {finalize, map} from "rxjs/operators";
 import {CoursesService} from "../services/courses.service";
 
 
@@ -17,14 +17,10 @@ export class HomeComponent implements OnInit {
     coursesBeginner$: Observable<Course[]>;
     coursesAdvanced$: Observable<Course[]>;
 
-
     constructor(private coursesService: CoursesService) {}
 
     ngOnInit() {
-      this.courses$ = this.coursesService.getCourses();
-
-      this.coursesBeginner$ = this.courseFilter(this.courses$,'BEGINNER');
-      this.coursesAdvanced$ = this.courseFilter(this.courses$,'ADVANCED');
+      this.loadCourses();
     }
 
     public courseFilter(courses$: Observable<Course[]>, categoryName: string): Observable<Course[]> {
@@ -33,6 +29,13 @@ export class HomeComponent implements OnInit {
           course => course.categories.includes(categoryName))
         )
       );
+    }
+
+    loadCourses() {
+      this.courses$ = this.coursesService.getCourses();
+
+      this.coursesBeginner$ = this.courseFilter(this.courses$,'BEGINNER');
+      this.coursesAdvanced$ = this.courseFilter(this.courses$,'ADVANCED');
     }
 
 }
