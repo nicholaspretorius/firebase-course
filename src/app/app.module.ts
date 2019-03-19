@@ -68,7 +68,7 @@ import { LoginComponent } from './login/login.component';
         AngularFireModule.initializeApp(environment.firebase),
         AngularFireAuthModule,
         AngularFirestoreModule,
-        AngularFirestoreModule.enablePersistence(),
+        // AngularFirestoreModule.enablePersistence(),
         AngularFireStorageModule
     ],
     providers: [
