@@ -16,7 +16,7 @@ app.use(cors({origin: true}));
 
 app.get('/courses', async (req, res) => {
   const snaps = await db.collection('courses').get();
-  const courses = [];
+  const courses: any = [];
 
   snaps.forEach(snap => courses.push(snap.data()));
 
