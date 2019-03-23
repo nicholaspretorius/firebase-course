@@ -1,9 +1,11 @@
 import * as functions from 'firebase-functions';
+import {db} from "./init";
 const path = require('path');
 const os = require('os');
 const { Storage } = require('@google-cloud/storage');
 const mkdirp = require('mkdirp-promise');
 const spawn = require('child-process-promise').spawn;
+const rimraf = require('rimraf');
 
 const gcs = new Storage();
 
@@ -55,7 +57,25 @@ export const resizeThumbnail = functions.storage.object()
 
       console.log('Uploading the thumbnail to storage: ', outputFile, outputFilePath);
 
-      await bucket.upload(outputFile, { destination: outputFilePath, metadata});
+      const uploadedFiles = await bucket.upload(outputFile, { destination: outputFilePath, metadata});
 
-      return null;
+      // delete local files to avoid filling up the file system over time
+      rimraf.sync(tempLocalDir);
+
+      await originalImageFile.delete();
+
+      // create link to uploaded file
+      const thumbnail = uploadedFiles[0];
+      const url = await thumbnail.getSignedUrl({action: 'read', expires: new Date(3000,0,1)});
+
+      console.log('Generated thumbnail url: ', url);
+
+      // save thumbnail link in database
+
+      const frags = fileFullPath.split('/');
+      const courseId = frags[1];
+
+      console.log('Saving url to database', courseId);
+
+      return db.doc(`courses/${courseId}`).update({uploadedImageUrl: url}); // could await it too
   });
