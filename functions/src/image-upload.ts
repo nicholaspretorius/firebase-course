@@ -3,6 +3,7 @@ const path = require('path');
 const os = require('os');
 const { Storage } = require('@google-cloud/storage');
 const mkdirp = require('mkdirp-promise');
+const spawn = require('child-process-promise').spawn;
 
 const gcs = new Storage();
 
@@ -17,7 +18,7 @@ export const resizeThumbnail = functions.storage.object()
 
       console.log('Thumbnail generation started: ', fileFullPath, contentType, fileDirectory, fileName);
 
-      if (!contentType.startsWith('image/')) {
+      if (!contentType.startsWith('image/') || fileName.startsWith('thumb_')) {
         console.log('Exiting image processing...');
         return null;
       }
@@ -33,6 +34,28 @@ export const resizeThumbnail = functions.storage.object()
       console.log('Downloading image to: ', tempLocalFile);
 
       await originalImageFile.download({destination: tempLocalFile});
+
+      // generate thumbnail using ImageMagick, ImageMagick is bundled in the environment on Google
+
+      const outputFilePath = path.join(fileDirectory, 'thumb_' + fileName);
+
+      const outputFile = path.join(os.tmpdir(), outputFilePath);
+
+      console.log('Generating thumbnail to: ', outputFile);
+
+      spawn('convert', [tempLocalFile, '-thumbnail', '510x287 >', outputFile],
+        { capture: ['stdout', 'stderr']});
+
+      // Upload thumbnail back to Firebase Storage
+
+      const metadata = {
+        contentType: object.contentType,
+        cacheControl: 'public, max-age=2592000, s-maxage=2592000'
+      };
+
+      console.log('Uploading the thumbnail to storage: ', outputFile, outputFilePath);
+
+      await bucket.upload(outputFile, { destination: outputFilePath, metadata});
 
       return null;
   });
