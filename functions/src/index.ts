@@ -26,3 +26,4 @@ app.get('/courses', async (req, res) => {
 
 export const getCourses = functions.https.onRequest(app);
 export {onLessonAdded, onLessonDeleted} from './lessons-counter';
+export {resizeThumbnail} from './image-upload';
